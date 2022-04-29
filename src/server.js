@@ -28,4 +28,4 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log(`Connected to mongo at ${uri}`));
 
 
-app.listen(3002);
+app.listen(process.env.PORT || 3002);
