@@ -22,8 +22,8 @@ app.use(errors.errorHandler);
 
 /// [MONGODB]
 const uri = "mongodb+srv://pedrocganem:" + process.env.DB_KEY + "@cluster0.tblrz.mongodb.net/test?retryWrites=true&w=majority";
-const uri2 = "mongodb+srv://pedrocganem:g4n3m123@cluster0.tblrz.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(uri2, { useNewUrlParser: true, useUnifiedTopology: true });
+// const uri2 = "mongodb+srv://pedrocganem:<password>@cluster0.tblrz.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log(`Connected to mongo at ${uri}`));
