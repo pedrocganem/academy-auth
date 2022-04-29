@@ -1,6 +1,6 @@
-const User = require('../models/UserModels')
+const User = require('../Models/UserModels.js')
 const bcrypt = require('bcryptjs');
-const auth = require('../helpers/jwt.js')
+const auth = require('../Helpers/jwt.js')
 
 
 async function login({ username, password }) {
