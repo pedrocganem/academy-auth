@@ -22,7 +22,6 @@ app.use(errors.errorHandler);
 
 /// [MONGODB]
 const uri = "mongodb+srv://pedrocganem:" + process.env.DB_KEY + "@cluster0.tblrz.mongodb.net/test?retryWrites=true&w=majority";
-// const uri2 = "mongodb+srv://pedrocganem:<password>@cluster0.tblrz.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
