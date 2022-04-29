@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const auth = require('./helpers/jwt.js')
+const auth = require('./Helpers/jwt.js')
 const unless = require('express-unless')
 const users = require('./Controllers/UserController.js')
-const errors = require('./helpers/errorHandler.js')
+const errors = require('./Helpers/ErrorHandler.js')
 require("dotenv").config();
 
 auth.authenticateToken.unless = unless
