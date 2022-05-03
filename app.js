@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 const express = require("express");
 const User = require("./model/user");
 const dotenv = require("dotenv");
+const auth = require("./middleware/auth.js");
 
 dotenv.config();
 
@@ -79,7 +80,9 @@ app.post("/login", async (req, res) => {
 
 });
 
-//TODO implement requests
+app.get("/welcome", auth, (req, res) => {
+    res.status(200).send("Snow Academy! ☃️");
+})
 
 
 module.exports = app;
