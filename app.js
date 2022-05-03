@@ -80,8 +80,22 @@ app.post("/login", async (req, res) => {
 
 });
 
-app.get("/welcome", auth, (req, res) => {
-    res.status(200).send("Snow Academy! ☃️");
+app.get("/students", auth, (req, res) => {
+    const response = {
+        "students" : [
+            "Rodolfo",
+            "Laís",
+            "Eric",
+            "Emmanuel",
+            "Victor",
+            "Wilsley",
+            "Thiago",
+            "Gabriel",
+            "Isabella",
+            "Matheus"
+        ]
+    }
+    res.status(200).json(response);
 })
 
 
