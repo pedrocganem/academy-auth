@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, config.JWT_TOKEN);
         req.user = decoded;
     } catch(error) {
-        return res.status(401).send("Your token is invalid or expired, please sign in again! ")
+        return res.status(401).send("Invalid token, please sign in again!")
     }
     return next();
 };
