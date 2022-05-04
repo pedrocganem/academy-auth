@@ -22,8 +22,6 @@ app.post("/register", async (req, res) => {
     try {
         const { first_name, last_name, email, password } = req.body;
 
-        console.log(req.body);
-        console.log(req.headers);
 
         if (!(email && password && first_name && last_name)) {
             res.status(400).send("Missing field, check if email, password, firstname and lastname aren't null");
@@ -62,6 +60,9 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+
+    console.log(req.body);
+    console.log(req.headers);
 
     try {
         /// Parses request body into [email] and [password] variables.
