@@ -18,6 +18,9 @@ app.post("/register", async (req, res) => {
     try {
         const { first_name, last_name, email, password } = req.body;
 
+        console.log(req.body);
+        console.log(req.headers);
+
         if (!(email && password && first_name && last_name)) {
             res.status(400).send("Missing field, check if email, password, firstname and lastname aren't null");
         }
@@ -55,12 +58,18 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+
     try {
+        /// Parses request body into [email] and [password] variables.
         const { email, password } = req.body;
 
+        /// Looks for the user by the e-mail on the database. 
         const user = await User.findOne({ email });
 
+        /// Checks if user exists and checks if the password is correct
         if (user && (await bcrypt.compare(password, user.password))) {
+
+            /// Generate user token.
             const token = jwt.sign({
                 user_id: user._id, email
             },
@@ -70,9 +79,11 @@ app.post("/login", async (req, res) => {
                 }
             );
             user.token = token;
-
+            
+            /// Returns success if everything checks up!
             return res.status(201).json(user);
         }
+        /// Return an error
         return res.status(400).send("Invalid Credentials");
     } catch (error) {
         console.log(error);
