@@ -15,6 +15,10 @@ app.use(express.json());
 
 app.post("/register", async (req, res) => {
 
+    console.log(req.body);
+    console.log(req.headers);
+
+
     try {
         const { first_name, last_name, email, password } = req.body;
 
