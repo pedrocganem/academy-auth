@@ -18,7 +18,6 @@ app.post("/register", async (req, res) => {
     console.log(req.body);
     console.log(req.headers);
 
-
     try {
         const { first_name, last_name, email, password } = req.body;
 
@@ -65,16 +64,12 @@ app.post("/login", async (req, res) => {
     console.log(req.headers);
 
     try {
-        /// Parses request body into [email] and [password] variables.
         const { email, password } = req.body;
 
-        /// Looks for the user by the e-mail on the database. 
         const user = await User.findOne({ email });
 
-        /// Checks if user exists and checks if the password is correct
         if (user && (await bcrypt.compare(password, user.password))) {
 
-            /// Generate user token.
             const token = jwt.sign({
                 user_id: user._id, email
             },
@@ -84,11 +79,9 @@ app.post("/login", async (req, res) => {
                 }
             );
             user.token = token;
-            
-            /// Returns success if everything checks up!
+
             return res.status(201).json(user);
         }
-        /// Return an error
         return res.status(400).send("Invalid Credentials");
     } catch (error) {
         console.log(error);
@@ -97,8 +90,11 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/students", auth, (req, res) => {
+
+    console.log(req);
+
     const response = {
-        "students" : [
+        "students": [
             "Rodolfo",
             "Laís",
             "Eric",
@@ -112,7 +108,51 @@ app.get("/students", auth, (req, res) => {
         ]
     }
     res.status(200).json(response);
-})
+});
+
+app.patch("/update", auth, async (req, res) => {
+
+    console.log(req.body);
+    console.log(req.headers['x-access-token']);
+
+    try {
+
+        const { email, new_password } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).send("User not found");
+        }
+
+        if (!new_password) {
+            return res.status(401).send("Password missing");
+        }
+
+        const arePasswordsIdentical = bcrypt.compareSync(new_password, user.password);
+
+        if (arePasswordsIdentical) {
+            return res.status(401).send("This password is currently been used.")
+        }
+
+        const encryptedPassword = await bcrypt.hash(new_password, 10);
+
+        user.password = encryptedPassword;
+
+        const updatedUser = await User.findByIdAndUpdate(user._id, user);
+
+        if (!updatedUser) {
+            return res.status(401).send("Error updating user:");
+        }
+
+        return res.status(201).json(user);
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+});
 
 
 module.exports = app;
